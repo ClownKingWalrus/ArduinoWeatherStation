@@ -9,12 +9,15 @@ float logR2, R2, T;
 float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
 int waterSensorPin = A2;
 float SensePerMilimeter = 4.33;
+const int buttonPin = 36;
+int buttonState = 0;
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 void setup() {
   delay(500);
-Serial.begin(9600);
+  pinMode(buttonPin, INPUT);
+  Serial.begin(9600);
 }
 
 void tempGuy() {
@@ -105,8 +108,37 @@ void WaterLevelSensorGuy() {
 }
 
 void loop() { 
-  // tempGuy();
-  // DhtGuy();
+// buttonState = digitalRead(buttonPin);
+// Serial.println(buttonState);
+  while (true) {
+    buttonState = digitalRead(buttonPin);
+      if (buttonState == HIGH) {
+        delay(1000);
+        break;
+      }
+      Serial.println("1");
+    tempGuy();
+  }
+  while (true) {
+    buttonState = digitalRead(buttonPin);
+      if (buttonState == HIGH) {
+        delay(1000);
+        break;
+      }
+      Serial.println(buttonState);
+      Serial.println("2");
+    DhtGuy();
+  }
+  while (true) {
+    buttonState = digitalRead(buttonPin);
+      if (buttonState == HIGH) {
+        delay(1000);
+        break;
+      }
+      Serial.println(buttonState);
+      Serial.println("3");
     WaterLevelSensorGuy();
+  }
+  
 
 }
